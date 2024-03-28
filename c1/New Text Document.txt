@@ -1,0 +1,1 @@
+simple source/reverse engineering challenge to understand which valid input succeeds
