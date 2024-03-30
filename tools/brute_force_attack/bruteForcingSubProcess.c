@@ -3,8 +3,8 @@
 #include <string.h>
 #include <time.h>
 
-#define TEST_PASSWORD "passwo"
-#define STACK_SIZE 10000
+#define TEST_PASSWORD "passwor"
+#define STACK_SIZE 64000
 time_t START_TIME;
 
 void free_stack(char** stack){
@@ -37,6 +37,7 @@ void brute_force(int max_length, char* symbols, char* starting_candidate) {
                 sprintf(stack[esp], "%s%c", candidate, symbols[i]);  // Create child candidate and null terminates
             }
         }
+        free(candidate);
     }
     free_stack(stack);
 }
@@ -44,19 +45,15 @@ void brute_force(int max_length, char* symbols, char* starting_candidate) {
 int main(int argc, char *argv[]) {
     START_TIME = time(NULL);
 
-    char* candidate;
+    int max_length = atoi(argv[1]);
+    char* symbols = argv[2];
     if (argc == 3) {
-        candidate[0] = '\0';
+        brute_force(max_length, symbols, "");  
     }else if (argc != 4) {
         printf("usage: %s [max_length_int, symbols_string, opt:candidate_string]\n", argv[0]);
         return 1;
     }else{
-        candidate = argv[3];
+        brute_force(max_length, symbols, argv[3]);  
     }
-    int max_length = atoi(argv[1]);
-    char* symbols = argv[2];
-    //printf("argc: %d, max_length: %d, symbols: %s, candidate: %s\n", argc, max_length, symbols, candidate);
-    
-    brute_force(max_length, symbols, candidate);  
     return 0;
 }
