@@ -13,7 +13,7 @@ alphabet = lower_case + upper_case
 # 0=python, 1=C
 MODE = 0
 # largest possible length to try
-MAX_PASSWORD_LENGTH = 7
+MAX_PASSWORD_LENGTH = 8
 # alphabet to be used
 SYMBOLS = decimal
 N_CORES = 4
