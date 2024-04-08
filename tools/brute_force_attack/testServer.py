@@ -16,10 +16,14 @@ while True:
     else:
         cache[addr[1]] = 1
     i+=1
-    if i%1000000 == 0:
-        print(i, [cache[i]/N for i in cache.keys()])
+    if i%100000 == 0:
+        arr = [f"{((cache[k]/N)*100):.2f} %" for k in cache.keys()]
+        print(f"total number of requests: {i}, {arr}")
     response = INVALID_MESSAGE
     if data.decode("utf-8") == PASSWORD:
         response = VALID_MESSAGE
         print(data, addr, response)
+        s.sendto(response.encode("utf-8"), addr)
+        input("")
+        exit(0)
     s.sendto(response.encode("utf-8"), addr)

@@ -8,6 +8,7 @@ HOST, PORT = "127.0.0.1", 10487
 S = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 START_TIME = time.time()
 ARGS = sys.argv
+
 if len(ARGS) == 3:
     ARGS.append("")
 elif len(ARGS) == 4:
@@ -16,7 +17,8 @@ elif len(ARGS) != 5:
     print("usage: [max_length_int, symbols_string, opt:candidate_string, opt:parentPid]")
     sys.exit(1)
 
-def test_candidate(candidate):
+def test_candidate(candidate, requests_sent=-1):
+    print(f"request:{requests_sent}:'{candidate}' pid:{os.getpid()}")
     S.sendto(candidate.encode("utf-8"), (HOST, PORT))
     response = S.recv(64)
     if response.decode("utf-8") == "success":
@@ -25,14 +27,16 @@ def test_candidate(candidate):
 
 def brute_force_iterative(max_length, symbols, candidate=""):
     stack = [candidate]
+    requests_sent = 0
     while len(stack) > 0:
         candidate = stack.pop()
         # test the candidate
-        if test_candidate(candidate):
+        if test_candidate(candidate, requests_sent):
             print(f"candidate:{candidate} pid:{os.getpid()} port:{PORT} t:{time.time() - START_TIME:.2F}s")
             if len(ARGS) == 5:# send signal to parent 
                 os.kill(int(ARGS[4]), signal.SIGTERM)
             exit(0)
+        requests_sent += 1
         # test the candidates children if applicable
         if len(candidate) < max_length:
             children = [candidate + str(x) for x in symbols]
