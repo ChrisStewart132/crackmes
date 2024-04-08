@@ -2,6 +2,9 @@
 simulation of a brute force attack using multi processing 
 implemented with a python command script and with both python and C test servers and subprocesses
 
+# DEMO
+https://github.com/ChrisStewart132/crackmes/assets/30304173/48aedda5-45f2-46f8-99c1-3e4b1a4600d1
+
 # Example Use
 step 1: configure the test server password (defined in testServer.py/c)
 step 2: configure password length, symbols, and number of cores to use in the bruteForcing.py script
